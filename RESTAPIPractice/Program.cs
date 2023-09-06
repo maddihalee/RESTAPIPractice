@@ -139,6 +139,49 @@ app.MapGet("/genres/{id}", (RESTAPIPracticeDbContext db, int id) =>
     return Results.Ok(genre);
 });
 
+// Get all songs
+app.MapGet("/songs", (RESTAPIPracticeDbContext db) =>
+{
+    return db.Songs.ToList();
+});
+
+// Add a song
+app.MapPost("/songs", (RESTAPIPracticeDbContext db, Song song) =>
+{
+    db.Songs.Add(song);
+    db.SaveChanges();
+    return Results.Created($"/songs/{song.Id}", song);
+});
+
+// Delete a song
+app.MapDelete("/songs/{id}", (RESTAPIPracticeDbContext db, int id) =>
+{
+    Song songToDelete = db.Songs.FirstOrDefault(s => s.Id == id);
+    if (songToDelete == null)
+    {
+        return Results.NotFound();
+    }
+    db.Songs.Remove(songToDelete);
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
+// Update a song
+app.MapPut("/songs/{id}", (RESTAPIPracticeDbContext db, int id, Song song) =>
+{
+    Song songToUpdate = db.Songs.FirstOrDefault(s => s.Id == id);
+    if (songToUpdate == null)
+    {
+        return Results.NotFound();
+    }
+    songToUpdate.Title = song.Title;
+    songToUpdate.Length = song.Length;
+    songToUpdate.Album = song.Album;
+
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
