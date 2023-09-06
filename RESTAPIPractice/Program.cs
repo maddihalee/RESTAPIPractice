@@ -79,13 +79,64 @@ app.MapPut("artists/{id}", (RESTAPIPracticeDbContext db, Artist artist, int id) 
 });
 
 // Retrieve a list of a single artist with associated songs
-app.MapGet("/artists/{id}", (RESTAPIPracticeDbContext db, int id) =>
+app.MapGet("/artists/{id}/songs", (RESTAPIPracticeDbContext db, int id) =>
 {
     Artist artist = db.Artists
     .Include(p => p.Songs)
     .FirstOrDefault(p => p.Id == id);
 
     return Results.Ok(artist);
+});
+
+// Get all genres
+app.MapGet("/genres", (RESTAPIPracticeDbContext db) =>
+{
+    return db.Genres.ToList();
+});
+
+// Add a genre
+app.MapPost("/genres", (RESTAPIPracticeDbContext db, Genre genre) =>
+{
+    db.Genres.Add(genre);
+    db.SaveChanges();
+    return Results.Created($"/genres/{genre.Id}", genre);
+});
+
+// Delete a genre
+app.MapDelete("/genres/{id}", (RESTAPIPracticeDbContext db, int id) =>
+{
+    Genre genreToDelete = db.Genres.FirstOrDefault(p => p.Id == id);
+    if (genreToDelete == null)
+    {
+        return Results.NotFound();
+    }
+    db.Genres.Remove(genreToDelete);
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
+// Update a genre
+app.MapPut("/genres/{id}", (RESTAPIPracticeDbContext db, int id, Genre genre) =>
+{
+    Genre genreToUpdate = db.Genres.FirstOrDefault(gr => gr.Id == id);
+    if (genreToUpdate == null)
+    {
+        return Results.NotFound();
+    }
+    genreToUpdate.Name = genre.Name;
+    genreToUpdate.Description = genre.Description;
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
+// Retrieve details of a single genre with associated songs
+app.MapGet("/genres/{id}", (RESTAPIPracticeDbContext db, int id) =>
+{
+    Genre genre = db.Genres
+    .Include(p => p.Songs)
+    .FirstOrDefault(p => p.Id == id);
+
+    return Results.Ok(genre);
 });
 
 // Configure the HTTP request pipeline.
