@@ -182,6 +182,17 @@ app.MapPut("/songs/{id}", (RESTAPIPracticeDbContext db, int id, Song song) =>
     return Results.NoContent();
 });
 
+// Details view of a single song and its associated genres and artist details
+app.MapGet("/songs/{id}/artistandgenre", (RESTAPIPracticeDbContext db, int id) =>
+{
+    var song = db.Songs.Where(s => s.Id == id)
+    .Include(p => p.Artist)
+    .Include(p => p.Genres).ToList();
+
+    return Results.Ok(song);
+});
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -7,6 +7,7 @@
         public int ArtistId { get; set; }
         public string Album { get; set; }
         public string Length { get; set; }
+        public Artist Artist { get; set; }
         public ICollection<Genre> Genres { get; set; }
     }
 
