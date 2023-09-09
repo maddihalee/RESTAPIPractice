@@ -33,10 +33,10 @@ namespace RESTAPIPractice.Models;
 
         modelBuilder.Entity<Song>().HasData(new Song[]
         {
-            new Song {Id = 234, Title = "The Ghosts of Beverly Drive", ArtistId = 1, Album = "Kintsugi", Length = "4 minutes and 14 seconds"},
-            new Song {Id = 235, Title = "Animal", ArtistId = 2, Album = "Miike Snow", Length = "4 minutes 24 seconds"},
-            new Song {Id = 236, Title = "Griztronics", ArtistId = 3, Album = "Bangers[2].Zip", Length = "3 minutes and 18 seconds"},
-            new Song {Id = 237, Title = "Get Over It", ArtistId = 4, Album = "OK Go", Length = "3 minutes and 17 seconds"}
+            new Song {Id = 234, Title = "The Ghosts of Beverly Drive", ArtistId = 1, Album = "Kintsugi", Length = "4:14"},
+            new Song {Id = 235, Title = "Animal", ArtistId = 2, Album = "Miike Snow", Length = "4:24"},
+            new Song {Id = 236, Title = "Griztronics", ArtistId = 3, Album = "Bangers[2].Zip", Length = "3:18"},
+            new Song {Id = 237, Title = "Get Over It", ArtistId = 4, Album = "OK Go", Length = "3:17"}
         });
 
         var genreSong = modelBuilder.Entity("GenreSong");
